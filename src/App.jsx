@@ -12,7 +12,7 @@ function App() {
   const [year, month] = date.split('-')
 
   const [loading, setLoading] = useState(true)
-
+  const [search, setSearch] = useState('')
 
   useEffect(() => {
     fetchTorontoEvents().then(events => { 
@@ -21,9 +21,12 @@ function App() {
     })
   }, []) 
 
+  /* filter events based on category and date selected in FilterBar */
   const filteredEvents = events.filter(event => {
+
     const matchesCategory = category === '' || 
       event.classifications?.[0]?.segment?.name === category
+
     const matchesDate = date === '' ||
       (date === 'today' && event.dates?.start?.localDate === today.toISOString().split('T')[0]) ||
       (date === 'week' && new Date(event.dates?.start?.localDate) >= today && new Date(event.dates?.start?.localDate) <= new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000)) ||
@@ -31,7 +34,10 @@ function App() {
       new Date(event.dates?.start?.localDate) >= today && 
       new Date(event.dates?.start?.localDate).getFullYear() === parseInt(year) &&
       new Date(event.dates?.start?.localDate).getMonth() === parseInt(month) - 1
-    return matchesCategory && matchesDate
+
+    const matchesSearch = search === '' || 
+      event.name.toLowerCase().includes(search.toLowerCase())
+    return matchesCategory && matchesDate && matchesSearch
   })
 
   if (loading) {
@@ -55,6 +61,12 @@ function App() {
         <h1>The Six List</h1>
         <p>Your hub for the hottest events in Toronto.</p>
       </header>
+      <div className="search-bar">
+        <SearchBar 
+          onSearch={setSearch}
+        />
+      </div>
+
       <div className="filter-section">
         <p className="filter-label">Filter by</p>
         <FilterBar 
@@ -76,6 +88,7 @@ function App() {
                 location={event._embedded?.venues?.[0]?.name}
                 image={event.images?.[0]?.url}
                 category={event.classifications?.[0]?.segment?.name}
+                
               />
             ))
           )}
