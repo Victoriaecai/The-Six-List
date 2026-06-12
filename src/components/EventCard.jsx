@@ -1,4 +1,4 @@
-function EventCard({ name, date, location, image, category}) {
+function EventCard({ name, date, location, image, category, link}) {
   return (
     <div className="event-card">
       <div className="event-card-image">  {/* thumbnail image for event */}
@@ -9,6 +9,9 @@ function EventCard({ name, date, location, image, category}) {
         <h2 className="event-name">{name}</h2>
         <p className="event-date">{new Date(date).toLocaleDateString('en-CA', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
         <p className="event-location">{location}</p>
+        <a href={link} target="_blank" rel="noopener noreferrer">
+          Get Tickets
+        </a>
       </div>
     </div>
   )
