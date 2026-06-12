@@ -88,7 +88,7 @@ function App() {
                 location={event._embedded?.venues?.[0]?.name}
                 image={event.images?.[0]?.url}
                 category={event.classifications?.[0]?.segment?.name}
-                
+                link={event.url}
               />
             ))
           )}

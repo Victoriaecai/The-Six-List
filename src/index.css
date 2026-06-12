@@ -165,3 +165,20 @@ select:hover {
   padding: 4rem;
   grid-column: 1 / -1;
 }
+
+.event-card a {
+  display: inline-block;
+  margin-top: 0.8rem;
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #f5f0eb;
+  text-decoration: none;
+  border-bottom: 1px solid #444;
+  padding-bottom: 2px;
+  transition: border-color 0.2s ease;
+}
+
+.event-card a:hover {
+  border-color: #f5f0eb;
+}
