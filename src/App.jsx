@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import EventCard from './components/EventCard'
 import FilterBar from './components/FilterBar'
+import SearchBar from './components/SearchBar'
 import { fetchTorontoEvents } from './services/ticketmaster'
 
 
@@ -9,10 +10,10 @@ function App() {
   const [events, setEvents] = useState([])
   const [category, setCategory] = useState('')
   const [date, setDate] = useState('')
-  const [year, month] = date.split('-')
 
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
+  const [year, month] = date.includes('-') ? date.split('-') : ['', '']
 
   useEffect(() => {
     fetchTorontoEvents().then(events => { 
@@ -34,7 +35,7 @@ function App() {
       new Date(event.dates?.start?.localDate) >= today && 
       new Date(event.dates?.start?.localDate).getFullYear() === parseInt(year) &&
       new Date(event.dates?.start?.localDate).getMonth() === parseInt(month) - 1
-
+      
     const matchesSearch = search === '' || 
       event.name.toLowerCase().includes(search.toLowerCase())
     return matchesCategory && matchesDate && matchesSearch

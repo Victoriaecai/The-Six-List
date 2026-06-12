@@ -182,3 +182,31 @@ select:hover {
 .event-card a:hover {
   border-color: #f5f0eb;
 }
+
+.search-bar {
+  margin-bottom: 1.5rem;
+}
+
+.search-bar input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #333;
+  padding: 0.8rem 0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1rem;
+  color: #f5f0eb;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.search-bar input::placeholder {
+  color: #444;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+}
+
+.search-bar input:focus {
+  border-bottom-color: #f5f0eb;
+}
