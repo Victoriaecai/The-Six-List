@@ -67,6 +67,9 @@ header {
 
 .event-card-info {
   padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
 }
 
 .event-category {
@@ -92,4 +95,73 @@ header {
 .event-location {
   font-size: 0.85rem;
   color: #888;
+}
+
+.filter-bar {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+select {
+  background: transparent;
+  color: #f5f0eb;
+  border: 1px solid #333;
+  padding: 0.6rem 1.5rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  appearance: none;
+  border-radius: 20px;
+  transition: all 0.2s ease;
+}
+
+select option {
+  background: #141414;
+  color: #f5f0eb;
+}
+
+select:hover {
+  border-color: #f5f0eb;
+  background: #f5f0eb;
+  color: #0a0a0a;
+}
+
+.filter-section {
+  margin-bottom: 2rem;
+}
+
+.filter-label {
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #888;
+  margin-bottom: 0.8rem;
+}
+
+.loading {
+  text-align: center;
+  padding: 4rem;
+  font-size: 0.8rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #888;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.no-events {
+  text-align: center;
+  color: #888;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 4rem;
+  grid-column: 1 / -1;
 }

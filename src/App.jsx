@@ -11,10 +11,15 @@ function App() {
   const [date, setDate] = useState('')
   const [year, month] = date.split('-')
 
+  const [loading, setLoading] = useState(true)
+
 
   useEffect(() => {
-    fetchTorontoEvents().then(events => setEvents(events))
-  }, [])
+    fetchTorontoEvents().then(events => { 
+      setEvents(events)
+      setLoading(false)
+    })
+  }, []) 
 
   const filteredEvents = events.filter(event => {
     const matchesCategory = category === '' || 
@@ -29,28 +34,51 @@ function App() {
     return matchesCategory && matchesDate
   })
 
+  if (loading) {
+        return (
+          <div>
+            <header>
+              <h1>The Six List</h1>
+              <p>Your hub for the hottest events in Toronto.</p>
+            </header>
+            <div className="loading">
+              Loading events...
+            </div>
+          </div>
+        )
+      }
+
+
   return (
     <div>
       <header>
         <h1>The Six List</h1>
         <p>Your hub for the hottest events in Toronto.</p>
       </header>
-      <FilterBar 
-        onCategoryChange={setCategory}
-        onDateChange={setDate}
-      />
+      <div className="filter-section">
+        <p className="filter-label">Filter by</p>
+        <FilterBar 
+          onCategoryChange={setCategory}
+          onDateChange={setDate}
+        />
+      </div>
+
       <div className="events-grid">
-      {filteredEvents.map(event => (
-          <EventCard
-            /* event data from Ticketmaster API - the .id, .name, etc.. from the JSON */
-            key={event.id}
-            name={event.name}
-            date={event.dates?.start?.localDate}
-            location={event._embedded?.venues?.[0]?.name}
-            image={event.images?.[0]?.url}
-            category={event.classifications?.[0]?.segment?.name}
-          />
-        ))}
+        {filteredEvents.length === 0 ? (
+          <p className="no-events">No events found for the selected filters.</p>
+        ) : (
+          filteredEvents.map(event => (
+              <EventCard
+                /* event data from Ticketmaster API - the .id, .name, etc.. from the JSON */
+                key={event.id}
+                name={event.name}
+                date={event.dates?.start?.localDate}
+                location={event._embedded?.venues?.[0]?.name}
+                image={event.images?.[0]?.url}
+                category={event.classifications?.[0]?.segment?.name}
+              />
+            ))
+          )}
         </div>
     </div>
   )
