@@ -2,44 +2,26 @@ import { useState, useEffect } from 'react'
 import EventCard from './components/EventCard'
 import FilterBar from './components/FilterBar'
 import SearchBar from './components/SearchBar'
-import { fetchTorontoEvents } from './services/ticketmaster'
+import { fetchTicketmasterEvents } from './services/ticketmaster'
 
 
 function App() {
-  const today = new Date()
   const [events, setEvents] = useState([])
   const [category, setCategory] = useState('')
   const [date, setDate] = useState('')
 
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
-  const [year, month] = date.includes('-') ? date.split('-') : ['', '']
 
+  
   useEffect(() => {
-    fetchTorontoEvents().then(events => { 
-      setEvents(events)
-      setLoading(false)
+    // setLoading(true)
+
+      fetchTicketmasterEvents({ search, category, date }).then(events => { 
+        setEvents(events)
+        setLoading(false)
     })
-  }, []) 
-
-  /* filter events based on category and date selected in FilterBar */
-  const filteredEvents = events.filter(event => {
-
-    const matchesCategory = category === '' || 
-      event.classifications?.[0]?.segment?.name === category
-
-    const matchesDate = date === '' ||
-      (date === 'today' && event.dates?.start?.localDate === today.toISOString().split('T')[0]) ||
-      (date === 'week' && new Date(event.dates?.start?.localDate) >= today && new Date(event.dates?.start?.localDate) <= new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000)) ||
-      (date.includes(today.getFullYear().toString()) || date.includes((today.getFullYear() + 1).toString())) && 
-      new Date(event.dates?.start?.localDate) >= today && 
-      new Date(event.dates?.start?.localDate).getFullYear() === parseInt(year) &&
-      new Date(event.dates?.start?.localDate).getMonth() === parseInt(month) - 1
-      
-    const matchesSearch = search === '' || 
-      event.name.toLowerCase().includes(search.toLowerCase())
-    return matchesCategory && matchesDate && matchesSearch
-  })
+  }, [search, category, date]) 
 
   if (loading) {
         return (
@@ -77,10 +59,10 @@ function App() {
       </div>
 
       <div className="events-grid">
-        {filteredEvents.length === 0 ? (
+        {events.length === 0 ? (
           <p className="no-events">No events found for the selected filters.</p>
         ) : (
-          filteredEvents.map(event => (
+          events.map(event => (
               <EventCard
                 /* event data from Ticketmaster API - the .id, .name, etc.. from the JSON */
                 key={event.id}
