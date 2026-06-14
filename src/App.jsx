@@ -3,7 +3,7 @@ import EventCard from './components/EventCard'
 import FilterBar from './components/FilterBar'
 import SearchBar from './components/SearchBar'
 import { fetchTicketmasterEvents } from './services/ticketmaster'
-
+import { fetchPredictHQEvents } from './services/predicthq'
 
 function App() {
   const [events, setEvents] = useState([])
@@ -16,11 +16,15 @@ function App() {
   
   useEffect(() => {
     // setLoading(true)
-
-      fetchTicketmasterEvents({ search, category, date }).then(events => { 
-        setEvents(events)
+    async function loadEvents() {
+        const [ticketmasterEvents, predictHQEvents] = await Promise.all([
+          fetchTicketmasterEvents({ search, category, date }),
+          fetchPredictHQEvents({ search, category, date })
+        ])
+        setEvents([...ticketmasterEvents, ...predictHQEvents])
         setLoading(false)
-    })
+      }
+      loadEvents()
   }, [search, category, date]) 
 
   if (loading) {
