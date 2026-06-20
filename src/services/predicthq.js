@@ -1,10 +1,9 @@
 const API_KEY = import.meta.env.VITE_PREDICTHQ_API_KEY
-const BASE_URL = 'https://api.predicthq.com/v1/events/'
+const BASE_URL = 'https://api.predicthq.com/v1/events'
 
 export async function fetchPredictHQEvents({ search, category, date }) {
     const params = new URLSearchParams({
-        'location_around.origin': '43.6532,-79.3832',
-        'location_around.offset': '10km',
+        within: '10km@43.6532,-79.3832',
         country: 'CA',
         limit: 50,
         sort: 'start',
@@ -31,6 +30,8 @@ export async function fetchPredictHQEvents({ search, category, date }) {
         params.append('start.lte', end.toISOString())
     }
 
+    console.log(`${BASE_URL}?${params}`)
+
     const res = await fetch(`${BASE_URL}?${params}`, {
         headers: {
         'Authorization': `Bearer ${API_KEY}`
@@ -42,7 +43,7 @@ export async function fetchPredictHQEvents({ search, category, date }) {
     name: event.title,
     dates: { start: { localDate: event.start_local?.split('T')[0] } },
     images: [{ url: null }],
-    url: `https://predicthq.com/events/${event.id}`,
+    url: `https://www.google.com/search?q=${encodeURIComponent(event.title + ' Toronto')}`,
     classifications: [{ segment: { name: event.category } }],
     _embedded: { 
       venues: [{ 

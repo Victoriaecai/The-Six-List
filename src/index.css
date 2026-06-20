@@ -210,3 +210,18 @@ select:hover {
 .search-bar input:focus {
   border-bottom-color: #f5f0eb;
 }
+
+.image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1a1a1a, #0a0a0a);
+  color: #444;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 1rem;
+}

@@ -21,6 +21,8 @@ function App() {
           fetchTicketmasterEvents({ search, category, date }),
           fetchPredictHQEvents({ search, category, date })
         ])
+        console.log('Ticketmaster:', ticketmasterEvents.length)
+        console.log('PredictHQ:', predictHQEvents.length)
         setEvents([...ticketmasterEvents, ...predictHQEvents])
         setLoading(false)
       }
@@ -76,6 +78,7 @@ function App() {
                 image={event.images?.[0]?.url}
                 category={event.classifications?.[0]?.segment?.name}
                 link={event.url}
+                source={event.source}
               />
             ))
           )}
