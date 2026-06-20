@@ -4,7 +4,7 @@ A Toronto events aggregator that pulls real-time events from multiple sources an
 
 **Live site:** [the-six-list.vercel.app](https://the-six-list.vercel.app)
 
-![The Six List preview](./assets/preview.png)
+![The Six List preview](./preview.png)
 
 ## About
 
